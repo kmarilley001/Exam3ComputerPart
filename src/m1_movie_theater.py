@@ -1,5 +1,5 @@
 ###############################################################################
-# TODO: 1. (3 pts)
+# DONE: 1. (3 pts)
 #
 #   For this module, we are going to create a basic program to handle movie
 #   times at a movie theater. For our purposes, a movie is going to be defined
@@ -28,9 +28,27 @@
 #
 #   Once you have done this, then change the above _TODO_ to DONE.
 ###############################################################################
+# In this session i have defined a function that takes the parameter movies. Created a for loop that would take the dictionary made and run it through loop of the parameter(movies) and print the list. The dictionary is enclosed in a list because when I didn't enclose in a list I would run the code and seeing the output multiple times. 
+def show_movies(movies): 
+    print("Movies: ")
+    for movie in movies: 
+        print ("Title:", movie["title"])
+        print("Duration:", movie["duration"], "minutes")
+        print("Start Time:", movie["start_time"])
+        print("Theater:", movie["theater_num"])
+        print("Tickets Available:", movie["num_of_tickets"])
+        print()
 
+movies = [{"title": "Braveheart", 
+          "duration": 170,
+          "start_time": "2:15 PM", 
+          "theater_num": 8, 
+          "num_of_tickets": 20}]
+show_movies(movies)
+        
+    
 ###############################################################################
-# TODO: 2. (3 pts)
+# DONE: 2. (3 pts)
 #
 #   For this _todo_, write a function called get_ticket() that takes one
 #   parameter:
@@ -51,9 +69,17 @@
 #
 #   Once you have done this, then change the above _TODO_ to DONE.
 ###############################################################################
+# define a function that takes the parameter movie and inside the function it checks the number of tickets available given by the num_of_tickets key in the dictionary called movies. If are available it reduces the number of tickets available by 1 and prints a success and if no tickets available it would print a message indicating there is no more tickets. 
+def get_ticket(movie): 
+    if movie["num_of_tickets"] > 0:
+        movie["num_of_tickets"] -= 1 
+        print("Success! You know have a ticket for" + movie["title"])
+    else: 
+        print("There are currently no tickets available for that movie.")
 
+    
 ###############################################################################
-# TODO: 3. (9 pts)
+# DONE: 3. (9 pts)
 #
 #   Now, let's create our movie showtimes system.
 #
@@ -83,3 +109,49 @@
 #
 #   Once you have done this, then change the above _TODO_ to DONE.
 ###############################################################################
+#Defines a main function and welcomes user and starts an empty list called movies to stor info. creates a loop to prompt user to input movie details and that info is stored in a dictionary and appended to a list. after that list of available movies are shown creating a loop in which a user can purchase tickets. 
+def main(): 
+    print("Welcome to Movie Showtime Center!")
+    
+    movies = [] 
+
+    while True: 
+        title = input("Enter the movie title (type 'end' to finish): ")
+        if title.lower() == 'end': 
+            break 
+
+        duration = int(input("Enter the duration of the movie in minutes: "))
+        start_time = input("Enter the start time of the movie: ")
+        theater_num = int(input("Enter the theater number: "))
+        num_of_tickets = int(input("Enter the number of tickets available: "))
+
+        movie = {"title": title, 
+                 "duration": duration,
+                 "start_time": start_time, 
+                 "theater_num": theater_num,
+                 "num_of_tickets": num_of_tickets}
+        
+        movies.append(movie)
+
+    show_movies(movies)  # Moved inside the main function
+
+    while True: 
+        option = input("Which movie would you like to buy a ticket for? (or 'end' to finish): ")
+        if option.lower() == 'end': 
+            break 
+        
+        found = False
+        for movie in movies:
+            if option.lower() == movie['title'].lower(): 
+                get_ticket(movie)
+                found = True 
+                break 
+
+        if not found: 
+            print("Movie is not found. Please try again.")
+
+        show_movies(movies) 
+main()
+
+
+
